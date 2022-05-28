@@ -1,4 +1,6 @@
+import { api } from "services/request";
+
 export default async (url) => {
-    const { data } =  axios.get(url);
+    const { data } = await api.get(url);
     return data;
 }

@@ -135,3 +135,26 @@ export const Title = styledComponents.div`
     font-size: ${fonts.sizes.xxxl};
     font-weight: ${fonts.weights.bold};
 `;
+
+export const List = styledComponents.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    .list-item {
+        padding: ${styles.paddings.md};
+        border-radius: ${styles.borderRadius.md};
+        background-color: ${colors.secondary};
+        border: 1px solid ${colors.border};
+    }
+`;
+
+export const Chip = styledComponents.div`
+    padding: ${styles.paddings.sm} ${styles.paddings.md};
+    border-radius: ${styles.borderRadius.md};
+    border: 1px solid ${colors.border};
+    background-color: ${colors.primary};
+    color: ${colors.secondary};
+    font-size: ${fonts.sizes.sm};
+    font-weight: ${fonts.weights.bold};
+    cursor: pointer;
+`;

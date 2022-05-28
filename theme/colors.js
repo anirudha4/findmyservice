@@ -10,4 +10,6 @@ export default {
     layerLight: '#EBEBEB', 
     layerText: '#717171',
     layerLightText: '#A5A5A5',
+    dangerLight: '#FFE9E9',
+    danger: '#FF5E5E'   
 }
