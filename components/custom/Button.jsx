@@ -8,8 +8,8 @@ const StyledButton = styledComponents.button`
     min-height: 50px;
     outline: none;
     border: none;
-    background-color: ${colors.primary};
-    color: ${colors.secondary};
+    background-color: ${props => props.background ? props.background : colors.primary};
+    color: ${props => props.color ? props.color : colors.secondary};
     cursor: pointer;
     width: fit-content;
     min-width: 150px;

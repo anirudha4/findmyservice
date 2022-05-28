@@ -1,5 +1,7 @@
 import { CustomWidthHeightCenterContainer } from 'components/custom';
 import { auth } from 'fire/client';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/router';
 import React, { useContext } from 'react'
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Oval } from 'react-loader-spinner';
@@ -11,9 +13,14 @@ const AuthContext = React.createContext({
 });
 export const useUser = () => useContext(AuthContext);
 function AuthContextProvider({ children }) {
-    const [user, loading] = useAuthState(auth);
+    const [user, loading, error] = useAuthState(auth);
+    const router = useRouter();
     const [manualLogin] = useSignInWithEmailAndPassword(auth);
     const [manualSignup] = useCreateUserWithEmailAndPassword(auth);
+    const logout = () => {
+        signOut(auth)
+        window.location.href = '/auth'
+    };
     if (loading) {
         return <CustomWidthHeightCenterContainer>
             <Oval
@@ -28,7 +35,7 @@ function AuthContextProvider({ children }) {
         </CustomWidthHeightCenterContainer>
     }
     return (
-        <AuthContext.Provider value={{ user, manualLogin, manualSignup }}>
+        <AuthContext.Provider value={{ user, manualLogin, manualSignup, logout }}>
             {children}
         </AuthContext.Provider>
     )

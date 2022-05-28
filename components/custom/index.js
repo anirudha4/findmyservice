@@ -1,10 +1,11 @@
+import Link from "next/link";
 import styledComponents from "styled-components";
 import { colors, fonts, styles } from "theme";
 
 export const Container = styledComponents.div`
     max-width: ${styles.maxWidth};
     margin: 0 auto;
-    padding: 0 ${styles.paddings.md};
+    padding: 0 ${styles.paddings.lg};
 `;
 
 export const CustomWidthHeightCenterContainer = styledComponents.div`
@@ -62,4 +63,14 @@ export const Flex = styledComponents.div`
     align-items: ${props => props.align ? props.align : 'center'};
     justify-content: ${props => props.justify ? props.justify : 'start'};
     gap: ${props => props.gap ? props.gap : '0px'};
+`;
+
+
+export const Logo = styledComponents(Link)`
+    text-decoration: none;
+    color: ${colors.primary};
+`;
+
+export const Line = styledComponents.div`
+    border-bottom: 1px solid ${colors.border};
 `;

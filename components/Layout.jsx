@@ -1,11 +1,17 @@
 import React from 'react'
+import styledComponents from 'styled-components';
+import Navbar from './Navbar';
 
-function Layout({ children, showHeader = true }) {
+const AppShell = styledComponents.div`
+    max-height: 100vh;
+    height: 100vh;
+`;
+function Layout({ children, showHeader = true, pageProps }) {
     return (
-        <div>
-            {showHeader && <h1>Header</h1>}
+        <AppShell>
+            {showHeader && <Navbar />}
             {children}
-        </div>
+        </AppShell>
     )
 }
 

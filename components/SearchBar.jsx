@@ -7,6 +7,11 @@ const SearchBarInputContainer = styledComponents.div`
     background-color: ${colors.secondary};
     border-radius: ${styles.borderRadius.md};
     overflow: hidden;
+    border: 1px solid ${colors.layer};
+    transition: all .2s;
+    &:focus-within {
+        border: 1px solid ${colors.border};
+    }
     input {
         outline: none;
         border: none;
@@ -19,7 +24,7 @@ const SearchBarInputContainer = styledComponents.div`
         border: none;
         outline: none;
         border-radius: ${styles.borderRadius.md};
-        margin: 3px;
+        margin: 5px;
         background-color: ${colors.primary};
         cursor: pointer;
         display: flex;

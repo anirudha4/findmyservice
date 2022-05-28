@@ -16,9 +16,13 @@ const AuthContainer = styledComponents(Card)`
     gap: 20px;
     padding: ${styles.paddings.md};
     min-height: 500px;
+    @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+    }
 `;
 const ContainedCard = styledComponents(Card)`
     box-shadow: none;
+    position: relative;
     background-color: ${colors.primary};
     color: ${colors.secondary};
     display: flex;
@@ -28,10 +32,13 @@ const ContainedCard = styledComponents(Card)`
         font-size: ${fonts.sizes.xxxl};
         font-weight: ${fonts.weights.bold};
         color: #f4f4f4;
+        position: absolute;
+        top: 20px;
+        left: 20px;
     }
     .headline {
         font-size: ${fonts.sizes.xxxl};
-        font-weight: ${fonts.weights.bold};
+        font-weight: ${fonts.weights.medium};
         line-height: 40px;
     }
 `;
@@ -66,7 +73,9 @@ function Auth() {
             console.log({ err: err.message });
         }
     }
-
+    if(user) {
+        router.push('/');
+    }
     return (
         <Container>
             <CustomWidthHeightCenterContainer>
@@ -123,7 +132,7 @@ function Auth() {
                                 <input type="password" name="password" id="password" placeholder="***********" onChange={onChange} value={values.password} />
                             </Field>
                             <Flex gap="20px">
-                                <Button loading={loading} disabled={loading}>
+                                <Button loading={loading} disabled={loading} style={{ width: '100%' }}>
                                     {active.name}
                                 </Button>
                                 {/* <Button type="button" style={{ backgroundColor: colors.secondary, color: colors.primary }}>
@@ -140,12 +149,7 @@ function Auth() {
         </Container>
     )
 }
-export default (() => {
-    const { user } = useUser();
-    const router = useRouter();
-    if(user) router.replace('/')
-    return <Auth />
-})
+export default Auth;
 
 export function getStaticProps() {
     return {
