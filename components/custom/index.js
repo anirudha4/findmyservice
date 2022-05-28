@@ -41,6 +41,13 @@ export const Field = styledComponents.div`
     border-radius: ${styles.borderRadius.md};
     overflow: hidden;
     transition: all .2s;
+    ${props => props.disabled && `
+        background-color: ${colors.layer};
+        cursor: not-allowed;
+        input {
+            pointer-events: none;
+        }
+    `}
     &:focus-within {
         border-color ${colors.primary};
     }
@@ -56,6 +63,55 @@ export const Field = styledComponents.div`
         padding: ${styles.paddings.sm};
         padding-left: ${styles.paddings.md};
         padding-bottom: 15px;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active{
+        background-color: white;
+    }
+`;
+export const MediaField = styledComponents.div`
+    width: 100%;
+    gap: 5px;
+    border: 1px dashed ${colors.border};
+    border-radius: ${styles.borderRadius.md};
+    overflow: hidden;
+    transition: all .2s;
+    position: relative;
+    input {
+        display: none;
+    }
+    label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        min-height: 70px;
+        color: ${colors.layerLightText};
+        font-size: ${fonts.sizes.md};
+        user-select: none;
+    }
+    .filename {
+        color: ${colors.primary};
+    }
+    .clear-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color:rgba(255, 0, 0, 0.06);
+        border-radius: 50%;
+        cursor: pointer;
+        svg {
+            color: rgba(255, 0, 0, 0.55);
+            pointer-events: none;
+        }
     }
 `;
 export const Flex = styledComponents.div`
@@ -73,4 +129,9 @@ export const Logo = styledComponents(Link)`
 
 export const Line = styledComponents.div`
     border-bottom: 1px solid ${colors.border};
+`;
+
+export const Title = styledComponents.div`
+    font-size: ${fonts.sizes.xxxl};
+    font-weight: ${fonts.weights.bold};
 `;

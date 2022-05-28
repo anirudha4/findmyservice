@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FcGoogle } from 'react-icons/fc';
 import { Card, Container, CustomWidthHeightCenterContainer, Field, Flex, Spaces } from "components/custom"
 import SwitchTab from "components/custom/SwitchTab";
-import SearchBar from "components/SearchBar";
+import SearchBar from "components/custom/SearchBar";
 import styledComponents from "styled-components"
 import { colors, fonts, styles } from "theme";
 import Button from "components/custom/Button";

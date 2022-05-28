@@ -91,20 +91,7 @@ export const Avatar = styledComponents.div`
         border-radius: 100%;
     }
 `;
-const navOptions = [
-    {
-        route: '/',
-        name: 'Browse Services',
-    },
-    {
-        route: '/sellers',
-        name: 'Sellers',
-    },
-    {
-        route: '/categories',
-        name: 'Categories',
-    },
-]
+
 function Navbar() {
     const { user, logout } = useUser();
     const router = useRouter();
@@ -116,6 +103,27 @@ function Navbar() {
             <Button onClick={logout} background="rgba(255,0,0,0.09)" color="rgba(255,0,0,0.8)">Logout</Button>
         </ProfileContainer>
     )
+    const navOptions = [
+        {
+            route: '/',
+            name: 'Browse Services',
+        },
+        {
+            route: '/sellers',
+            name: 'Stores',
+        },
+        {
+            route: '/categories',
+            name: 'Categories',
+        },
+        !user?.isSeller ? {
+            route: '/become-a-seller',
+            name: 'Become a Seller',
+        } : {
+            route: '/store-dashboard',
+            name: 'Store Dashboard',
+        }  
+    ]
     if (!user) {
         router.push('/auth');
     } else {
@@ -130,8 +138,8 @@ function Navbar() {
                         </div>
                         <div className="right">
                             <div className="links">
-                                {navOptions.map(option => (
-                                    <Link href={option.route}>
+                                {navOptions.map((option, idx) => (
+                                    <Link href={option.route} key={idx}>
                                         <a className={`link ${path === option.route ? 'active' : ''}`}>{option.name.toUpperCase()}</a>
                                     </Link>
                                 ))}
@@ -140,13 +148,14 @@ function Navbar() {
                                 <Dropdown
                                     controlClassName="profile-dropdown"
                                     Overlay={(props) => profileMenu(props)}
-                                    Layer={({ onClick }) => {
-                                        return (
-                                            <div className="profile-box" onClick={onClick}>
-                                                <div className="initial">{user.email[0].toUpperCase()}</div>
-                                            </div>
-                                        )
-                                    }
+                                    Layer={
+                                        ({ onClick }) => {
+                                            return (
+                                                <div className="profile-box" onClick={onClick}>
+                                                    <div className="initial">{user.email[0].toUpperCase()}</div>
+                                                </div>
+                                            )
+                                        }
                                     }
                                 />
                             </div>

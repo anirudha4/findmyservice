@@ -15,6 +15,7 @@ const StyledButton = styledComponents.button`
     min-width: 150px;
     border-radius: ${styles.borderRadius.md};
     font-weight: ${fonts.weights.bold};
+    user-select: none;
 `;
 function Button({ children, loading, ...props }) {
   return (
