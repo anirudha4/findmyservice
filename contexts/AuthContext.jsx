@@ -17,7 +17,6 @@ function AuthContextProvider({ children }) {
     const [manualSignup] = useCreateUserWithEmailAndPassword(auth);
     const logout = () => {
         signOut(auth)
-        window.location.href = '/auth'
     };
     if (loading) {
         return <CustomWidthHeightCenterContainer>

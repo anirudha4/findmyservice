@@ -5,8 +5,12 @@ import { useUser } from 'contexts/AuthContext';
 import useForm from 'hooks/useForm';
 import React, { useState } from 'react'
 import styledComponents from 'styled-components'
+import axios from 'axios';
 import { colors, fonts, styles } from 'theme';
 import { requiredValidation } from 'utils/validation';
+import withGaurd from 'components/hoc/withGaurd';
+import { createFormData } from 'utils';
+import { createSellerRequest } from 'services/request';
 
 const BecomeSellerContainer = styledComponents.div`
 
@@ -16,7 +20,7 @@ const BecomeSellerCard = styledComponents(Card)`
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: ${styles.paddings.md};
-  min-height: 500px;
+  min-height: 570px;
   @media (max-width: 700px) {
       grid-template-columns: 1fr;
   }
@@ -73,11 +77,12 @@ const Step = styledComponents.div`
 `;
 
 const stepOptions = [
-  { id: 1, label: 'Please fill in your Personal Details', value: 1 },
-  { id: 2, label: 'Please fill in your Professional Details', value: 2 }
+  { id: 1, label: 'Fill in your Personal Details', value: 1 },
+  { id: 2, label: 'Fill  in your Professional Details', value: 2 }
 ]
 function BecomeSeller() {
   const { user } = useUser();
+  console.log(user.uid);
   const defaultPersonalValues = {
     firstName: '',
     lastName: '',
@@ -119,12 +124,14 @@ function BecomeSeller() {
         setStep(stepOptions[1])
       } else if(type === 'professional') {
         if(isSubmitable()) {
-          console.log({ ...personalValues, ...professionalValues });
+          const formValues = {...personalValues, ...professionalValues, uid: user.uid};
+          const formData = createFormData(formValues);
+          const data = await createSellerRequest('/seller-requests', formData, { 'Content-Type': 'multipart/form-data' });
+          console.log(data);
         } else {
           throw new Error('Please fill all fields');
         }
       }
-
     } catch (err) {
       console.log(err.message);
     } finally {
@@ -170,4 +177,4 @@ function BecomeSeller() {
   )
 }
 
-export default BecomeSeller
+export default withGaurd(BecomeSeller)
