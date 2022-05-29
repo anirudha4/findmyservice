@@ -36,11 +36,6 @@ function AuthContextProvider({ children }) {
     useEffect(() => {
         if (registeredUser) {
             createUserOnSignup(`/users`, { user: registeredUser.user }).then(res => {
-                console.log({
-                    res,
-                    registeredUser,
-                    firebaseUser
-                });
                 mutate(`/users/${registeredUser.user.uid}`)
             })
         }

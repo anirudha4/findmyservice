@@ -17,7 +17,6 @@ function ProfessionalForm({
     loading,
     isSubmitable
 }) {
-    console.log(isSubmitable());
     return (
         <div>
             <Title>Professional Details</Title>

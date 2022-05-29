@@ -57,7 +57,7 @@ export const Field = styledComponents.div`
         padding-left: ${styles.paddings.md};
         padding-top: ${styles.paddings.md};
     }
-    input {
+    input, textarea {
         outline: none;
         border: none;
         padding: ${styles.paddings.sm};

@@ -1,4 +1,4 @@
-import React, { useEffect   } from 'react'
+import React, { useEffect, forwardRef } from 'react'
 import { IoMdClose } from 'react-icons/io';
 import styledComponents from 'styled-components'
 import { colors, fonts, styles } from 'theme';
@@ -11,6 +11,7 @@ const SidePanelContainer = styledComponents.div`
     bottom: 0;
     max-width: 500px;
     width: 100%;
+    overflow: auto;
     background-color: #fff;
     z-index: 100;
     box-shadow: 0 0 20px rgba(0,0,0,.05);
@@ -28,7 +29,15 @@ const SidePanelContainer = styledComponents.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: ${styles.paddings.lg};
+        height: 61px;
+        padding: 0 ${styles.paddings.lg};
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: #fff;
+        border-bottom: 1px solid ${colors.border};
         .title {
             font-weight: ${fonts.weights.bold};
             font-size: ${fonts.sizes.xl};
@@ -55,11 +64,17 @@ const SidePanelContainer = styledComponents.div`
         }
     }
 `;
-function SidePanel({ children, title, onClose, id }) {
+const SidePanelContent = styledComponents.div`
+    padding: ${styles.paddings.lg};
+`;
+const SidePanel = forwardRef(({ children, title, onClose, id }, ref) => {
     useEffect(() => {
+        document.addEventListener('keydown', e => {
+            if(e.key === 'Escape') onClose()
+        })
     }, [])
     return (
-        <SidePanelContainer id={id}>
+        <SidePanelContainer id={id} ref={ref}>
             <div className="header">
                 <div className="title">
                     {title}
@@ -68,11 +83,13 @@ function SidePanel({ children, title, onClose, id }) {
                     <IoMdClose size={20} color={colors.layerText} />
                 </div>
             </div>
-            <Line />
+            {/* <Line /> */}
             <Spaces top="20px" />
-            {children}
+            <SidePanelContent>
+                {children}
+            </SidePanelContent>
         </SidePanelContainer>
     )
-}
+})
 
 export default SidePanel

@@ -22,7 +22,7 @@ const BecomeSellerCard = styledComponents(Card)`
   grid-template-columns: ${props => props.noGrid ? '' : '1fr 1fr'};
   gap: 20px;
   padding: ${styles.paddings.md};
-  min-height: 550px;
+  min-height: 560px;
   @media (max-width: 700px) {
       grid-template-columns: 1fr;
       height: 100%;
