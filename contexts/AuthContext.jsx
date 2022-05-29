@@ -1,9 +1,12 @@
 import { CustomWidthHeightCenterContainer } from 'components/custom';
 import { auth } from 'fire/client';
 import { signOut } from 'firebase/auth';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Oval } from 'react-loader-spinner';
+import { createUserOnSignup } from 'services/request';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
 
 const AuthContext = React.createContext({
     user: '',
@@ -12,12 +15,26 @@ const AuthContext = React.createContext({
 });
 export const useUser = () => useContext(AuthContext);
 function AuthContextProvider({ children }) {
-    const [user, loading, error] = useAuthState(auth);
-    const [manualLogin] = useSignInWithEmailAndPassword(auth);
-    const [manualSignup] = useCreateUserWithEmailAndPassword(auth);
-    const logout = () => {
-        signOut(auth)
+    const [firebaseUser, loading] = useAuthState(auth);
+    const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+    const [createUserWithEmailAndPassword, registeredUser] = useCreateUserWithEmailAndPassword(auth);
+    const { data: user, error } = useSWR(firebaseUser ? `/users?uid=${firebaseUser.uid}` : null, fetcher);
+    const manualLogin = async (email, password) => {
+        await signInWithEmailAndPassword(email, password);
+    }
+    const manualSignup = async (email, password) => {
+        await createUserWithEmailAndPassword(email, password)
+    }
+    const logout = async () => {
+        await signOut(auth)
     };
+    useEffect(() => {
+        if(registeredUser) {
+            createUserOnSignup(`/users`, { user: registeredUser.user }).then(res => {
+                console.log(res);
+            })
+        }
+    }, [registeredUser])
     if (loading) {
         return <CustomWidthHeightCenterContainer>
             <Oval

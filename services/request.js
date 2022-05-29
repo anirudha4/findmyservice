@@ -13,3 +13,8 @@ export const createSellerRequest = async (url, data, hds = headers) => {
 export const deleteSellerRequest = async (url, data, hds = headers) => {
     return await api.delete(url, { headers: hds })
 }
+
+// create user
+export const createUserOnSignup = async (url, data, hds = headers) => {
+    return await api.post(url, data, { headers: hds })
+}

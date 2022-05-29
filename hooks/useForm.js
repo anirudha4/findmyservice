@@ -6,7 +6,8 @@ function useForm(defaultValues) {
         const { name, value } = e.target
         setValues({ ...values, [name]: value })
     }
-    return { onChange, values }
+    const resetForm = () => setValues(defaultValues);
+    return { onChange, values, resetForm }
 }
 
 export default useForm

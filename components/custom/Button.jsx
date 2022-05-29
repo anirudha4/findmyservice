@@ -16,6 +16,7 @@ const StyledButton = styledComponents.button`
     border-radius: ${styles.borderRadius.md};
     font-weight: ${fonts.weights.bold};
     user-select: none;
+    padding: 0 ${styles.paddings.lg};
 `;
 function Button({ children, loading, ...props }) {
   return (
