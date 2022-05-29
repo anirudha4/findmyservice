@@ -1,5 +1,6 @@
 import React from 'react'
 import { Oval } from 'react-loader-spinner'
+import { colors } from 'theme'
 import { CustomWidthHeightCenterContainer } from '.'
 
 function Loader() {
@@ -12,7 +13,7 @@ function Loader() {
                 strokeWidth={5}
                 strokeWidthSecondary={1}
                 color="black"
-                secondaryColor="#fcfcfc"
+                secondaryColor={colors.layerLightText}
             />
         </CustomWidthHeightCenterContainer>
     )

@@ -158,3 +158,15 @@ export const Chip = styledComponents.div`
     font-weight: ${fonts.weights.bold};
     cursor: pointer;
 `;
+
+export const Skeleton = styledComponents.div`
+`;
+export const Rectangle = styledComponents.div`
+    ${props => `
+        max-width: ${props.width}px;
+        width: 100%;
+        height: ${props.height}px;
+        border-radius: ${styles.borderRadius.md};
+        background-color: ${props.background};
+    `}
+`;

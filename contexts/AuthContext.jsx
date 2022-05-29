@@ -28,7 +28,6 @@ function AuthContextProvider({ children }) {
     }
     const manualSignup = async (email, password) => {
         await createUserWithEmailAndPassword(email, password)
-        mutate(firebaseUser ? `/users?uid=${firebaseUser.uid}` : null)
     }
     const logout = async () => {
         await signOut(auth)
@@ -36,6 +35,7 @@ function AuthContextProvider({ children }) {
     useEffect(() => {
         if (registeredUser) {
             createUserOnSignup(`/users`, { user: registeredUser.user }).then(res => {
+                console.log({ res });
                 mutate(`/users/${registeredUser.user.uid}`)
             })
         }

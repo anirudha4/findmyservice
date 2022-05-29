@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Field, Flex, Line, Spaces, Title } from 'components/custom';
+import { Container, Field, Flex, Line, Rectangle, Skeleton, Spaces, Title } from 'components/custom';
 import { colors, fonts, styles } from 'theme';
 import fetcher from 'utils/fetcher';
 import styledComponents from 'styled-components';
@@ -198,13 +198,14 @@ const DeclineForm = ({ request, onClose }) => {
   )
 }
 
-function Admin({ sellerRequests }) {
+function Admin({ }) {
   // component state
   const [showApproveForm, setShowApproveForm] = useState(false);
   const [showDeclineForm, setShowDeclineForm] = useState(false);
   // external states
   const router = useRouter();
   const { requestId } = router.query;
+  const { data: sellerRequests } = useSWR(`/seller-requests?pending=true`, fetcher);
   const { data: request, error } = useSWR(`/seller-requests/${requestId}`, fetcher);
 
   // refs
@@ -312,23 +313,20 @@ function Admin({ sellerRequests }) {
       <Title>Seller Requests</Title>
       <Spaces top={styles.margins.lg} />
       <SellerRequestsContainer>
-        {sellerRequests.map((request, key) => {
+        {!!sellerRequests ? sellerRequests.map((request, key) => {
           return (
             <SellerRequest key={key} request={request} />
           )
-        })}
+        }) : (
+          <Skeleton>
+            <Rectangle width={250} height={10} background={colors.border} />
+            <Spaces top="10px" />
+            <Rectangle width={200} height={10} background={colors.border} />
+          </Skeleton>
+        )}
       </SellerRequestsContainer>
     </Container >
   )
 }
 const ProtectedRoute = withGaurd(Admin)
 export default withAdmin(ProtectedRoute)
-
-export async function getServerSideProps(ctx) {
-  const sellerRequests = await fetcher('http://localhost:3000/api/seller-requests?pending=true');
-  return {
-    props: {
-      sellerRequests
-    }
-  }
-}

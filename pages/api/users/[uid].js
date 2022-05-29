@@ -4,6 +4,7 @@ export default async function handler(req, res) {
     try {
         if (req.method === 'GET') {
             const { uid } = req.query;
+            console.log(uid);
             const snapshot = await db.collection('users').doc(uid).get()
             if (!snapshot.exists) {
                 return res.json(null)
@@ -12,6 +13,6 @@ export default async function handler(req, res) {
             res.json(user);
         }
     } catch (err) {
-
+        console.log(err);
     }
 }
