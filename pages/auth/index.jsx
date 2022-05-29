@@ -8,17 +8,18 @@ import { colors, fonts, styles } from "theme";
 import Button from "components/custom/Button";
 import { useUser } from "contexts/AuthContext";
 import useForm from "hooks/useForm";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 
 const AuthContainer = styledComponents(Card)`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    // grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: ${styles.paddings.md};
     min-height: 500px;
-    @media (max-width: 700px) {
-        grid-template-columns: 1fr;
-    }
+    // @media (max-width: 700px) {
+    //     grid-template-columns: 1fr;
+    // }
 `;
 const ContainedCard = styledComponents(Card)`
     box-shadow: none;
@@ -73,9 +74,6 @@ function Auth() {
             console.log({ err: err.message });
         }
     }
-    if(user) {
-        router.push('/');
-    }
     return (
         <Container>
             <CustomWidthHeightCenterContainer>
@@ -103,6 +101,7 @@ function Auth() {
                         <form
                             onSubmit={handleSubmit}
                             autoComplete="off"
+                            autoSave={true}
                             style={{ display: 'grid', gap: 20 }}
                         >
                             {/* {active.value === 'signup' && <Flex gap="20px">
@@ -149,7 +148,14 @@ function Auth() {
         </Container>
     )
 }
-export default Auth;
+export default () => {
+    const { user } = useUser();
+    if(user) {
+        Router.push('/')
+    } else {
+        return <Auth />
+    }
+};
 
 export function getStaticProps() {
     return {

@@ -39,12 +39,20 @@ export default async function handler(req, res) {
                 })
             });
         } else if (req.method === 'GET') {
-            const { uid } = req.query;
-            const snapshot = await db.collection('seller-request').doc(uid).get();
-            if(!snapshot.exists) {
-                res.status(200).json(null);    
+            const { uid, pending } = req.query;
+            if (pending) {
+                const snapshot = await db.collection('seller-request').where("status", "==", false).get();
+                let requests = [];
+                snapshot.forEach(doc => requests.push({ ...doc.data(), id: doc.id }))
+                return res.status(200).json(requests)
             }
-            const data = { ...snapshot.data(), id: snapshot.id }
+            const snapshot = await db.collection('seller-request').doc(uid).get();
+            if (!snapshot.exists) {
+                return res.status(200).json({
+                    exists: false
+                })
+            }
+            const data = { ...snapshot.data(), id: snapshot.id, status: true, exists: true }
             res.status(200).json(data);
         } else if (req.method === 'DELETE') {
             const { uid } = req.query;
@@ -56,7 +64,8 @@ export default async function handler(req, res) {
         }
     } catch (err) {
         res.status(400).json({
-            status: false
+            status: false,
+            err
         })
     }
 }

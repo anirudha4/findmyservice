@@ -5,7 +5,7 @@ import React, { useContext, useEffect } from 'react'
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Oval } from 'react-loader-spinner';
 import { createUserOnSignup } from 'services/request';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import fetcher from 'utils/fetcher';
 
 const AuthContext = React.createContext({
@@ -18,24 +18,34 @@ function AuthContextProvider({ children }) {
     const [firebaseUser, loading] = useAuthState(auth);
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const [createUserWithEmailAndPassword, registeredUser] = useCreateUserWithEmailAndPassword(auth);
-    const { data: user, error } = useSWR(firebaseUser ? `/users?uid=${firebaseUser.uid}` : null, fetcher);
+    const { data: user } = useSWR(firebaseUser ? `/users/${firebaseUser.uid}` : null, fetcher, {
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+    });
     const manualLogin = async (email, password) => {
         await signInWithEmailAndPassword(email, password);
     }
     const manualSignup = async (email, password) => {
         await createUserWithEmailAndPassword(email, password)
+        mutate(firebaseUser ? `/users?uid=${firebaseUser.uid}` : null)
     }
     const logout = async () => {
         await signOut(auth)
     };
     useEffect(() => {
-        if(registeredUser) {
+        if (registeredUser) {
             createUserOnSignup(`/users`, { user: registeredUser.user }).then(res => {
-                console.log(res);
+                console.log({
+                    res,
+                    registeredUser,
+                    firebaseUser
+                });
+                mutate(`/users/${registeredUser.user.uid}`)
             })
         }
     }, [registeredUser])
-    if (loading) {
+    if (loading || (firebaseUser && !user)) {
         return <CustomWidthHeightCenterContainer>
             <Oval
                 ariaLabel="loading-indicator"

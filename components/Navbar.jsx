@@ -35,7 +35,7 @@ const Nav = styledComponents.nav`
                 align-items: center;
                 height: 100%;
                 font-size: ${fonts.sizes.md};
-                letter-spacing: .5px;
+                // letter-spacing: .5px;
                 color: ${colors.layerText};
                 font-weight: ${fonts.weights.bold};
                 transition: all .2s;
@@ -122,7 +122,11 @@ function Navbar() {
         } : {
             route: '/store-dashboard',
             name: 'Store Dashboard',
-        }  
+        },
+        user?.isAdmin && ({
+            route: '/admin',
+            name: 'Admin Console'
+        })
     ]
     if (!user) {
         router.push('/auth');
@@ -139,9 +143,11 @@ function Navbar() {
                         <div className="right">
                             <div className="links">
                                 {navOptions.map((option, idx) => (
-                                    <Link href={option.route} key={idx}>
-                                        <a className={`link ${path === option.route ? 'active' : ''}`}>{option.name.toUpperCase()}</a>
-                                    </Link>
+                                    option && (
+                                        <Link href={option.route} key={idx}>
+                                            <a className={`link ${path === option.route ? 'active' : ''}`}>{option.name.toUpperCase()}</a>
+                                        </Link>
+                                    )
                                 ))}
                             </div>
                             <div className="profile">
