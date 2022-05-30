@@ -1,9 +1,11 @@
+import useForm from 'hooks/useForm';
 import React, { useState, useEffect } from 'react'
 import { IoMdClose } from 'react-icons/io';
 import styledComponents from 'styled-components';
 import { colors, fonts, styles } from 'theme';
 import { Field, Flex, Line, Spaces } from './custom'
 import Button from './custom/Button';
+import Select from './custom/Select';
 
 const Details = styledComponents.div`
   display: grid;
@@ -74,7 +76,19 @@ const FormContainer = styledComponents.div`
   }
 `;
 
+const options = [
+    { id: 1, value: true, label: 'Approve' },
+    { id: 2, value: false, label: 'Decline' },
+]
+const defaultValues = {
+    subject: '',
+    message: '',
+    approved: options[0]
+}
 const ApproveForm = ({ request, onClose }) => {
+    const { values, onChange } = useForm(defaultValues);
+    const handleSubmit = () => {
+    }
     return (
         <FormContainer>
             <div className="form-header">
@@ -93,31 +107,8 @@ const ApproveForm = ({ request, onClose }) => {
                     <label htmlFor='message'>Message</label>
                     <textarea name='message' id='message' />
                 </Field>
+                <Select options={options} onChange={onChange} name="approved" placeholder="Request Status" label="Select Status" value={values.approved} /> 
                 <Button style={{ width: '100%' }}>Approve</Button>
-            </form>
-        </FormContainer>
-    )
-}
-const DeclineForm = ({ request, onClose }) => {
-    return (
-        <FormContainer>
-            <div className="form-header">
-                <div className="form-title">Decline Seller Request</div>
-                <div className="form-close-icon" onClick={onClose}>
-                    <IoMdClose size={20} color={colors.layerText} />
-                </div>
-            </div>
-            <Spaces top="10px" />
-            <form>
-                <Field disabled>
-                    <label htmlFor='subject'>Subject</label>
-                    <input disabled type="text" name='subject' id='subject' value={`Sorry Message ${request.firstName} ${request.lastName}`} />
-                </Field>
-                <Field>
-                    <label htmlFor='message'>Message</label>
-                    <textarea name='message' id='message' />
-                </Field>
-                <Button style={{ width: '100%' }}>Decline</Button>
             </form>
         </FormContainer>
     )
@@ -125,16 +116,13 @@ const DeclineForm = ({ request, onClose }) => {
 
 function SellerRequestSidePanel({ request, sidePanelRef }) {
     const [showApproveForm, setShowApproveForm] = useState(false);
-    const [showDeclineForm, setShowDeclineForm] = useState(false);
-
     useEffect(() => {
-        if ((showApproveForm || showDeclineForm) && sidePanelRef.current) {
+        if (showApproveForm && sidePanelRef.current) {
             sidePanelRef.current.scrollTop = sidePanelRef.current.scrollHeight;
         }
-    }, [showApproveForm, showDeclineForm])
+    }, [showApproveForm])
     useEffect(() => {
         setShowApproveForm(false)
-        setShowDeclineForm(false)
     }, [request])
     return (
         <div>
@@ -207,9 +195,9 @@ function SellerRequestSidePanel({ request, sidePanelRef }) {
             <Spaces top="20px" />
             <Line />
             <Spaces top="20px" />
-            {showApproveForm ? (<ApproveForm request={request} onClose={e => setShowApproveForm(false)} />) : showDeclineForm ? (<DeclineForm request={request} onClose={e => setShowDeclineForm(false)} />) : (<Flex gap="20px">
+            {showApproveForm ? (<ApproveForm request={request} onClose={e => setShowApproveForm(false)} />) : (<Flex gap="20px">
                 <Button style={{ width: '100%' }} onClick={() => setShowApproveForm(true)}>Accept</Button>
-                <Button color={colors.danger} background={colors.dangerLight} style={{ width: '100%' }} onClick={() => setShowDeclineForm(true)}> Decline</Button>
+                <Button color={colors.danger} background={colors.dangerLight} style={{ width: '100%' }} onClick={() => setShowApproveForm(true)}> Decline</Button>
             </Flex>)}
         </div >
     )

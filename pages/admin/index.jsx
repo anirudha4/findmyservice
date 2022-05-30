@@ -153,9 +153,7 @@ const SellerRequest = ({ request }) => {
 
 
 function Admin({ }) {
-  // component state
-  const [showApproveForm, setShowApproveForm] = useState(false);
-  const [showDeclineForm, setShowDeclineForm] = useState(false);
+  
   // external states
   const router = useRouter();
   const { requestId } = router.query;
