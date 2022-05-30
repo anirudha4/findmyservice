@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 3200" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>
+        svg {
+            font-size: 16px;
+        }
+
+        /**
+        * Adaptive media queries till 2400px wide generated via https://codepen.io/jakobud/pen/vmKLYb
+        * Values: $map: (1200px: 21.33px, 1600px: 16px, 2400px: 10.667px, 3200: 8px, 4200: 6.1px);
+        */
+
+        @media (min-width: 100px) {
+            svg {
+                font-size: calc(-170.7vw + 426.7px);
+            }
+        }
+
+        @media (min-width: 150px) {
+            svg {
+                font-size: calc(-85.3vw + 298.6px);
+            }
+        }
+
+        @media (min-width: 200px) {
+            svg {
+                font-size: calc(-42.66vw + 213.32px);
+            }
+        }
+
+        @media (min-width: 300px) {
+            svg {
+                font-size: calc(-21.34vw + 149.36px);
+            }
+        }
+
+        @media (min-width: 400px) {
+            svg {
+                font-size: calc(-12.8vw + 115.2px);
+            }
+        }
+
+        @media (min-width: 500px) {
+            svg {
+                font-size: calc(-8.54vw + 93.9px);
+            }
+        }
+
+        @media (min-width: 600px) {
+            svg {
+                font-size: calc(-5.33vw + 74.64px);
+            }
+        }
+
+        @media (min-width: 800px) {
+            svg {
+                font-size: calc(-3.2vw + 57.6px);
+            }
+        }
+
+        @media (min-width: 1000px) {
+            svg {
+                font-size: calc(-2.135vw + 46.95px);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            svg {
+                font-size: calc(-1.3325vw + 37.32px);
+            }
+        }
+
+        @media (min-width: 1600px) {
+            svg {
+                font-size: calc(-0.6667vw + 26.67px);
+            }
+        }
+
+        @media (min-width: 2400px) {
+            svg {
+                font-size: calc(-0.33337vw + 18.67px);
+            }
+        }
+
+        @media (min-width: 3200px) {
+            svg {
+                font-size: calc(-0.19vw + 14.08px);
+            }
+        }
+
+
+        rect:not([fill]) {
+            fill: url(#linear);
+        }
+
+        rect {
+            rx: 0.25em;
+        }
+
+        circle:not([fill]) {
+            fill: url(#linear);
+        }
+
+        line:not([fill]) {
+            stroke: url(#linear);
+        }
+
+        line {
+            stroke-width: 0.15em;
+        }
+    </style>
+
+    <defs>
+        <linearGradient id="linear" x1="0em" y1="0em" x2="100em" y2="10em" gradientUnits="userSpaceOnUse">
+            <stop offset=".10" stop-color="#f4f5f7">
+                <animate attributeName="offset" from="-.10" to="1.4" dur="2s" repeatCount="indefinite" />
+            </stop>
+            <stop offset=".15" stop-color="#e7e9ec">
+                <animate attributeName="offset" from="-.05" to="1.45" dur="2s" repeatCount="indefinite" />
+            </stop>
+            <stop offset=".20" stop-color="#f4f5f7">
+                <animate attributeName="offset" from="0" to="1.50" dur="2s" repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+    </defs>
+
+    
+    
+    <rect x="0em" y="1.5em" width="3.25em" height="0.625em"  rx="1"/>
+    <rect x="4em" y="1.5em" width="5em" height="0.625em"  rx="1"/>
+
+    
+    <rect x="0em" y="3.5em" width="7em" height="1em"  rx="1"/>
+
+    
+    <rect x="calc(100% - 7em)" y="3em" width="2em" height="2em"  rx="1"/>
+    <rect x="calc(100% - 4.5em)" y="3em" width="2em" height="2em"  rx="1"/>
+
+    
+    <rect x="0em" y="6em" width="7.5em" height="2.5em"  rx="1"/>
+    <circle cx="9.5em" cy="calc(6em + 1.25em)" r="1em" />
+    <circle cx="12em" cy="calc(6em + 1.25em)" r="1em" />
+    <rect x="15em" y="calc(6em + 0.9em)" width="3em" height="0.75em"  rx="1"/>
+
+    
+    <rect x="calc(100% - 8em)" y="6.25em" width="5.5em" height="2em"  rx="1"/>
+    <rect x="calc(100% - 14em)" y="6.25em" width="5.5em" height="2em"  rx="1"/>
+
+    
+    
+    <rect x="0em" y="10.5em" width="100%" height="0.15em"  rx="1"/>
+    <rect x="0em" y="14em" width="100%" height="0.15em"  rx="1"/>
+
+    <rect x="2em" y="12em" width="3em" height="0.75em"  rx="1"/>
+    <rect x="calc(20em + 0em + 7em)" y="12em" width="2em" height="0.75em"  rx="1"/>
+    <rect x="calc(20em + 16em + 7em)" y="12em" width="2em" height="0.75em"  rx="1"/>
+    <rect x="calc(20em + 32em + 7em)" y="12em" width="2em" height="0.75em"  rx="1"/>
+    <rect x="calc(20em + 48em + 7em)" y="12em" width="2em" height="0.75em"  rx="1"/>
+    <rect x="calc(20em + 64em + 7em)" y="12em" width="2em" height="0.75em"  rx="1"/>
+
+    
+    <rect x="0.1em" y="10.5em" width="0.15em" height="calc(100% - 10.5em)"  rx="1"/>
+    <rect x="20em" y="10.5em" width="0.15em" height="calc(100% - 10.5em)"  rx="1"/>
+    <rect x="calc(20em + 16em)" y="10.5em" width="0.15em" height="calc(100% - 10.5em)"  rx="1"/>
+    <rect x="calc(20em + 32em)" y="10.5em" width="0.15em" height="calc(100% - 10.5em)"  rx="1"/>
+    <rect x="calc(20em + 48em)" y="10.5em" width="0.15em" height="calc(100% - 10.5em)"  rx="1"/>
+    <rect x="calc(20em + 64em)" y="10.5em" width="0.15em" height="calc(100% - 10.5em)"  rx="1"/>
+
+    
+    <rect x="2em" y="calc(15.5em - 0.2em)" width="1em" height="1em"  rx="1"/>
+    <rect x="4em" y="15.5em" width="2.5em" height="0.75em"  rx="1"/>
+    <rect x="7.5em" y="15.5em" width="10em" height="0.75em"  rx="1"/>
+
+    
+    <rect x="2em" y="calc(18em - 0.2em)" width="1em" height="1em"  rx="1"/>
+    <rect x="4em" y="18em" width="2.5em" height="0.75em"  rx="1"/>
+    <rect x="7.5em" y="18em" width="8em" height="0.75em"  rx="1"/>
+
+    
+    <rect x="2em" y="calc(20.5em - 0.2em)" width="1em" height="1em" opacity="0.8"  rx="1"/>
+    <rect x="4em" y="20.5em" width="2.5em" height="0.75em" opacity="0.8"  rx="1"/>
+    <rect x="7.5em" y="20.5em" width="11em" height="0.75em" opacity="0.8"  rx="1"/>
+
+    
+    <rect x="2em" y="calc(23em - 0.2em)" width="1em" height="1em" opacity="0.6"  rx="1"/>
+    <rect x="4em" y="23em" width="2.5em" height="0.75em" opacity="0.6"  rx="1"/>
+    <rect x="7.5em" y="23em" width="7em" height="0.75em" opacity="0.6"  rx="1"/>
+
+    
+    <rect x="2em" y="calc(25.5em - 0.2em)" width="1em" height="1em" opacity="0.4"  rx="1"/>
+    <rect x="4em" y="25.5em" width="2.5em" height="0.75em" opacity="0.4"  rx="1"/>
+    <rect x="7.5em" y="25.5em" width="10em" height="0.75em" opacity="0.4"  rx="1"/>
+
+    
+    <rect x="2em" y="calc(28em - 0.2em)" width="1em" height="1em" opacity="0.2"  rx="1"/>
+    <rect x="4em" y="28em" width="2.5em" height="0.75em" opacity="0.2"  rx="1"/>
+    <rect x="7.5em" y="28em" width="8em" height="0.75em" opacity="0.2"  rx="1"/>
+
+
+
+
+</svg>

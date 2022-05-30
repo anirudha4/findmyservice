@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, unstable_batchedUpdates } from 'react';
 import { Container, Field, Flex, Line, Rectangle, Skeleton, Spaces, Title } from 'components/custom';
 import { colors, fonts, styles } from 'theme';
 import fetcher from 'utils/fetcher';
@@ -12,6 +12,7 @@ import Button from 'components/custom/Button';
 import withGaurd from 'components/hoc/withGaurd';
 import withAdmin from 'components/hoc/withAdmin';
 import { IoMdClose } from 'react-icons/io';
+import SellerRequestSidePanel from 'components/SellerRequestSidePanel';
 
 const SellerRequestsContainer = styledComponents.div`
   display: grid;
@@ -107,7 +108,7 @@ const FormContainer = styledComponents.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1.5px solid ${colors.border};
+      background-color: ${colors.background};
       border-radius: ${styles.borderRadius.md};
       cursor: pointer;
       transition: all .2s;
@@ -115,10 +116,10 @@ const FormContainer = styledComponents.div`
           transition: all .2s;
       }
       &:hover {
-          border-color: ${colors.primary};
-          svg {
-              fill: ${colors.primary};
-          }
+        background-color: ${colors.layer};
+        svg {
+            fill: ${colors.layerText};
+        }
       }
     }
   }
@@ -149,54 +150,7 @@ const SellerRequest = ({ request }) => {
   )
 }
 
-const ApproveForm = ({ request, onClose }) => {
-  return (
-    <FormContainer>
-      <div className="form-header">
-        <div className="form-title">Approve Seller Request</div>
-        <div className="form-close-icon" onClick={onClose}>
-          <IoMdClose size={20} color={colors.layerText} />
-        </div>
-      </div>
-      <Spaces top="10px" />
-      <form>
-        <Field disabled>
-          <label htmlFor='subject'>Subject</label>
-          <input disabled type="text" name='subject' id='subject' value={`Greeting Message ${request.firstName} ${request.lastName}`} />
-        </Field>
-        <Field>
-          <label htmlFor='message'>Message</label>
-          <textarea name='message' id='message' />
-        </Field>
-        <Button style={{ width: '100%' }}>Approve</Button>
-      </form>
-    </FormContainer>
-  )
-}
-const DeclineForm = ({ request, onClose }) => {
-  return (
-    <FormContainer>
-      <div className="form-header">
-        <div className="form-title">Decline Seller Request</div>
-        <div className="form-close-icon" onClick={onClose}>
-          <IoMdClose size={20} color={colors.layerText} />
-        </div>
-      </div>
-      <Spaces top="10px" />
-      <form>
-        <Field disabled>
-          <label htmlFor='subject'>Subject</label>
-          <input disabled type="text" name='subject' id='subject' value={`Sorry Message ${request.firstName} ${request.lastName}`} />
-        </Field>
-        <Field>
-          <label htmlFor='message'>Message</label>
-          <textarea name='message' id='message' />
-        </Field>
-        <Button style={{ width: '100%' }}>Decline</Button>
-      </form>
-    </FormContainer>
-  )
-}
+
 
 function Admin({ }) {
   // component state
@@ -210,91 +164,16 @@ function Admin({ }) {
 
   // refs
   const sidePanelRef = useRef();
-  useEffect(() => {
-    if((showApproveForm || showDeclineForm) && sidePanelRef.current) {
-      sidePanelRef.current.scrollTop = sidePanelRef.current.scrollHeight;
-    }
-  }, [showApproveForm, showDeclineForm])
+
   return (
     <Container>
       {requestId && (
         <SidePanel ref={sidePanelRef} id="seller-request" visible={!!requestId} onClose={() => router.push('/admin')} title={request ? `${request?.firstName} ${request?.lastName}` : <div style={{ height: 10, width: 50, background: colors.border }}></div>}>
           {request ? (
-            <>
-              <p>Personal Details</p>
-              <Spaces top="15px" />
-              <Details>
-                <div className="field">
-                  <div className="label">First Name</div>
-                  <div className="text">{request.firstName}</div>
-                </div>
-                <div className="field">
-                  <div className="label">Last Name</div>
-                  <div className="text">{request.lastName}</div>
-                </div>
-                <div className="field">
-                  <div className="label">Email</div>
-                  <div className="text">{request.email}</div>
-                </div>
-                <div className="field">
-                  <div className="label">Phone Number</div>
-                  <div className="text">{request.phone}</div>
-                </div>
-                <div className="field">
-                  <div className="label">Address</div>
-                  <div className="text">{request.address}</div>
-                </div>
-                <div className="field">
-                  <div className="label">Zip Code</div>
-                  <div className="text">{request.zip}</div>
-                </div>
-                <div className="field">
-                  <div className="label">City</div>
-                  <div className="text">{request.city}</div>
-                </div>
-                <div className="field">
-                  <div className="label">State</div>
-                  <div className="text">{request.state}</div>
-                </div>
-              </Details>
-              <Spaces top="15px" />
-              <Line />
-              <Spaces top="15px" />
-              <p>Professional Details</p>
-              <Spaces top="15px" />
-              <Details>
-                <div className="field">
-                  <div className="label">GSTIN</div>
-                  <div className="text">{request.gstin ? request.gstin : 'NA'}</div>
-                </div>
-              </Details>
-              <Spaces top="15px" />
-              <Line />
-              <Spaces top="15px" />
-              <p>Assets</p>
-              <Spaces top="15px" />
-              <Details>
-                <div className="field">
-                  <div className="label">Aadhar/Pan Card</div>
-                  <div className="asset-thumbnail">
-                    <img src={request.documentPhoto.downloadURL} alt={request.documentPhoto.name} />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="label">Store Image</div>
-                  <div className="asset-thumbnail">
-                    <img src={request.storePhoto.downloadURL} alt={request.storePhoto.name} />
-                  </div>
-                </div>
-              </Details>
-              <Spaces top="20px" />
-              <Line />
-              <Spaces top="20px" />
-              {showApproveForm ? (<ApproveForm request={request} onClose={e => setShowApproveForm(false)} />) : showDeclineForm ? (<DeclineForm request={request} onClose={e => setShowDeclineForm(false)} />) : (<Flex gap="20px">
-                <Button style={{ width: '100%' }} onClick={() => setShowApproveForm(true)}>Accept</Button>
-                <Button color={colors.danger} background={colors.dangerLight} style={{ width: '100%' }} onClick={() => setShowDeclineForm(true)}> Decline</Button>
-              </Flex>)}
-            </>
+            <SellerRequestSidePanel
+              sidePanelRef={sidePanelRef}
+              request={request}
+            />
           ) : <RequestLoader>
             <Oval
               ariaLabel="loading-indicator"

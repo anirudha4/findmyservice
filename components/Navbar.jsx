@@ -93,7 +93,7 @@ export const Avatar = styledComponents.div`
 `;
 
 function Navbar() {
-    const { user, logout } = useUser();
+    const { user, logout, currentUser } = useUser();
     const router = useRouter();
     const path = router.pathname;
     const profileMenu = (props) => (
@@ -116,14 +116,14 @@ function Navbar() {
             route: '/categories',
             name: 'Categories',
         },
-        !user?.isSeller ? {
+        !currentUser?.isSeller ? {
             route: '/become-a-seller',
             name: 'Become a Seller',
         } : {
-            route: '/store-dashboard',
+            route: '/store-dashboard',  
             name: 'Store Dashboard',
         },
-        user?.isAdmin && ({
+        currentUser?.isAdmin && ({
             route: '/admin',
             name: 'Admin Console'
         })

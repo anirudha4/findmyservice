@@ -2,10 +2,10 @@ import { useUser } from "contexts/AuthContext";
 import { useRouter } from "next/router";
 const withAdmin = (WrappedComponent) => {
     return function Component(props) {
-        const { user } = useUser();
+        const { currentUser } = useUser();
         const router = useRouter();
         if (typeof window !== "undefined") {
-            if (!user?.isAdmin) {
+            if (!currentUser?.isAdmin) {
                 router.replace("/");
                 return null;
             }

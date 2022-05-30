@@ -48,7 +48,7 @@ const SidePanelContainer = styledComponents.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1.5px solid ${colors.border};
+            background-color: ${colors.background};
             border-radius: ${styles.borderRadius.md};
             cursor: pointer;
             transition: all .2s;
@@ -56,9 +56,9 @@ const SidePanelContainer = styledComponents.div`
                 transition: all .2s;
             }
             &:hover {
-                border-color: ${colors.primary};
+                background-color: ${colors.layer};
                 svg {
-                    fill: ${colors.primary};
+                    fill: ${colors.layerText};
                 }
             }
         }
@@ -80,7 +80,7 @@ const SidePanel = forwardRef(({ children, title, onClose, id }, ref) => {
                     {title}
                 </div>
                 <div className="close-icon" onClick={onClose}>
-                    <IoMdClose size={20} color={colors.layerText} />
+                    <IoMdClose size={20} color={colors.layerLightText} />
                 </div>
             </div>
             {/* <Line /> */}

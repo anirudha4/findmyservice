@@ -13,7 +13,7 @@ function Loader() {
                 strokeWidth={5}
                 strokeWidthSecondary={1}
                 color="black"
-                secondaryColor={colors.layerLightText}
+                secondaryColor='#fff'
             />
         </CustomWidthHeightCenterContainer>
     )

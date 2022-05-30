@@ -14,7 +14,6 @@ export default async function handler(req, res) {
             const OAuthClient = initializeEmailService();
             const accessToken = await OAuthClient.getAccessToken();
             const isRefreshTokenValid = await OAuthClient.verifyIdToken(process.env.REFRESH_TOKEN);
-            console.log(isRefreshTokenValid);
             await sendVerificationEmail(accessToken, { to: 'anirudhag13@gmail.com', subject: 'Verify your email', text: 'This is test email' });
             return res.status(200).json({
                 data: response

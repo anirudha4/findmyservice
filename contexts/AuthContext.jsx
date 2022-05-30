@@ -1,12 +1,11 @@
 import { CustomWidthHeightCenterContainer } from 'components/custom';
 import { auth } from 'fire/client';
 import { signOut } from 'firebase/auth';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Oval } from 'react-loader-spinner';
-import { createUserOnSignup } from 'services/request';
-import useSWR, { mutate } from 'swr';
-import fetcher from 'utils/fetcher';
+import useSWR from 'swr';
+import { fetchUser } from 'utils/fetcher';
 
 const AuthContext = React.createContext({
     user: '',
@@ -15,14 +14,12 @@ const AuthContext = React.createContext({
 });
 export const useUser = () => useContext(AuthContext);
 function AuthContextProvider({ children }) {
-    const [firebaseUser, loading] = useAuthState(auth);
+    const [user, userLoading] = useAuthState(auth);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-    const [createUserWithEmailAndPassword, registeredUser] = useCreateUserWithEmailAndPassword(auth);
-    const { data: user } = useSWR(firebaseUser ? `/users/${firebaseUser.uid}` : null, fetcher, {
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
-    });
+    const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+    // const { data: currentUser, error } = useSWR(user && [`/users/get-user`, user?.accessToken], fetchUser);
     const manualLogin = async (email, password) => {
         await signInWithEmailAndPassword(email, password);
     }
@@ -30,17 +27,30 @@ function AuthContextProvider({ children }) {
         await createUserWithEmailAndPassword(email, password)
     }
     const logout = async () => {
-        await signOut(auth)
+        setLoading(true)
+        setCurrentUser(null);
+        await signOut(auth);
+        setLoading(false);
     };
+
     useEffect(() => {
-        if (registeredUser) {
-            createUserOnSignup(`/users`, { user: registeredUser.user }).then(res => {
-                console.log({ res });
-                mutate(`/users/${registeredUser.user.uid}`)
-            })
+        async function loadUser() {
+            try {
+                const data = await fetchUser(`/users/get-user`, user.accessToken)
+                setCurrentUser(data);
+                if(!userLoading) {
+                    setLoading(false)
+                }
+            } catch (err) {
+                setCurrentUser(null);
+                if(!userLoading) {
+                    setLoading(false)
+                }
+            } 
         }
-    }, [registeredUser])
-    if (loading || (firebaseUser && !user)) {
+        loadUser();
+    }, [user, userLoading])
+    if (loading || userLoading) {
         return <CustomWidthHeightCenterContainer>
             <Oval
                 ariaLabel="loading-indicator"
@@ -54,7 +64,7 @@ function AuthContextProvider({ children }) {
         </CustomWidthHeightCenterContainer>
     }
     return (
-        <AuthContext.Provider value={{ user, manualLogin, manualSignup, logout }}>
+        <AuthContext.Provider value={{ user, manualLogin, manualSignup, logout, currentUser }}>
             {children}
         </AuthContext.Provider>
     )
