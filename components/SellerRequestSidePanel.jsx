@@ -1,6 +1,7 @@
 import useForm from 'hooks/useForm';
 import React, { useState, useEffect } from 'react'
 import { IoMdClose } from 'react-icons/io';
+import { approveSeller } from 'services/request';
 import styledComponents from 'styled-components';
 import { colors, fonts, styles } from 'theme';
 import { Field, Flex, Line, Spaces } from './custom'
@@ -87,28 +88,39 @@ const defaultValues = {
 }
 const ApproveForm = ({ request, onClose }) => {
     const { values, onChange } = useForm(defaultValues);
-    const handleSubmit = () => {
+    const [loading, setLoading] = React.useState(false);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true)
+            e.preventDefault();
+            await approveSeller(`/seller-requests/${request.id}`, { ...values, status: values.approved.value });
+        } catch(err) {
+            console.log(err);
+        } finally {
+            setLoading(false)
+        }
     }
     return (
         <FormContainer>
             <div className="form-header">
-                <div className="form-title">Approve Seller Request</div>
+                <div className="form-title">Approve/Decline Request</div>
                 <div className="form-close-icon" onClick={onClose}>
                     <IoMdClose size={20} color={colors.layerText} />
                 </div>
             </div>
             <Spaces top="10px" />
-            <form>
-                <Field disabled>
+            <form onSubmit={handleSubmit}>
+                <Field>
                     <label htmlFor='subject'>Subject</label>
-                    <input disabled type="text" name='subject' id='subject' value={`Greeting Message ${request.firstName} ${request.lastName}`} />
+                    <input type="text" name='subject' id='subject' onChange={onChange} value={values.subject} />
                 </Field>
+                <Select options={options} onChange={onChange} name="approved" placeholder="Request Status" label="Select Status" value={values.approved} />
                 <Field>
                     <label htmlFor='message'>Message</label>
-                    <textarea name='message' id='message' />
+                    <textarea name='message' id='message' onChange={onChange} value={values.message} />
                 </Field>
-                <Select options={options} onChange={onChange} name="approved" placeholder="Request Status" label="Select Status" value={values.approved} /> 
-                <Button style={{ width: '100%' }}>Approve</Button>
+                <Button loading={loading} disabled={loading} style={{ width: '100%' }}>Send Response</Button>
             </form>
         </FormContainer>
     )
@@ -195,10 +207,14 @@ function SellerRequestSidePanel({ request, sidePanelRef }) {
             <Spaces top="20px" />
             <Line />
             <Spaces top="20px" />
-            {showApproveForm ? (<ApproveForm request={request} onClose={e => setShowApproveForm(false)} />) : (<Flex gap="20px">
+            {/* {showApproveForm ? (<ApproveForm request={request} onClose={e => setShowApproveForm(false)} />) : (<Flex gap="20px">
                 <Button style={{ width: '100%' }} onClick={() => setShowApproveForm(true)}>Accept</Button>
                 <Button color={colors.danger} background={colors.dangerLight} style={{ width: '100%' }} onClick={() => setShowApproveForm(true)}> Decline</Button>
-            </Flex>)}
+            </Flex>)} */}
+            {showApproveForm ? (<ApproveForm request={request} onClose={e => setShowApproveForm(false)} />) : (
+                <Button style={{ width: '100%' }} onClick={() => setShowApproveForm(true)}>Respond</Button>
+            )}
+
         </div >
     )
 }

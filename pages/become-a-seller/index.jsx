@@ -230,9 +230,9 @@ function BecomeSeller() {
               <div className="header">
                 <Flex gap="20px">
                   <Title>Seller Request Status</Title>
-                  <Chip>{sellerRequest.isSeller ? 'Approved' : 'Pending'}</Chip>
+                  <Chip>{sellerRequest.approved ? 'Approved' : 'Pending'}</Chip>
                 </Flex>
-                <Button onClick={handleDeleteRequest} loading={loading} background={colors.dangerLight} color={colors.danger}>
+                <Button onClick={handleDeleteRequest} loading={loading} background={colors.dangerLight} color={colors.danger} disabled={sellerRequest.approved}>
                   Delete Request
                 </Button>
               </div>

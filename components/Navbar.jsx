@@ -11,6 +11,7 @@ import Dropdown from './custom/Dropdown';
 
 const NavContainer = styledComponents.header`
     border-bottom: 1px solid ${colors.border};
+    background-color: ${colors.secondary};
 `;
 const Nav = styledComponents.nav`
     height: 60px;
@@ -18,14 +19,14 @@ const Nav = styledComponents.nav`
     justify-content: space-between;
     align-items: center;
     .right {
-        @media (max-width: 700px) {
-            display: none;
-        }
         height: 100%;
         display: flex;
         gap: ${styles.paddings.lg};
         align-items: center;
         .links{
+            @media (max-width: 700px) {
+                display: none;
+            }
             display: flex;
             height: 100%;
             align-items: center;
@@ -34,8 +35,7 @@ const Nav = styledComponents.nav`
                 display: flex;
                 align-items: center;
                 height: 100%;
-                font-size: ${fonts.sizes.md};
-                // letter-spacing: .5px;
+                font-size: ${fonts.sizes.lg};
                 color: ${colors.layerText};
                 font-weight: ${fonts.weights.bold};
                 transition: all .2s;
@@ -67,15 +67,44 @@ const Nav = styledComponents.nav`
     }
 `;
 const ProfileContainer = styledComponents.div`
-    padding: ${styles.paddings.lg};
     position: absolute;
     top: 110%;
     right: 0%;
-    width: 300px;
+    width: 200px;
     z-index: 10000;
     background-color: ${colors.secondary};
     border: 1px solid ${colors.border};
     box-shadow: ${styles.boxShadow.md};
+    border-radius: ${styles.borderRadius.md};
+    .menu {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        .link {
+            border-radius: ${styles.borderRadius.sm};
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            font-size: ${fonts.sizes.lg};
+            border-left: 2px solid transparent;
+            transition: border .2s background-color .2s color .2s;
+            font-weight: ${fonts.weights.medium};
+            color: ${colors.layerText};
+            &.active {
+                color: ${colors.primary};
+            }
+            &:hover {
+                background-color: ${colors.layer};
+            }            
+            &.danger-link {
+                color: ${colors.danger};
+                cursor: pointer;
+                &:hover{
+                    background-color: ${colors.dangerLight};
+                }
+            }
+        }
+    }
 `;
 export const Avatar = styledComponents.div`
     width: 70px;
@@ -92,15 +121,28 @@ export const Avatar = styledComponents.div`
     }
 `;
 
+
 function Navbar() {
     const { user, logout, currentUser } = useUser();
     const router = useRouter();
     const path = router.pathname;
     const profileMenu = (props) => (
         <ProfileContainer>
-            <strong>{user.email}</strong>
-            <Spaces top="15px" />
-            <Button onClick={logout} background="rgba(255,0,0,0.09)" color="rgba(255,0,0,0.8)">Logout</Button>
+            <div className="menu">
+                <Link href="/profile">
+                    <a className={`link ${path === '/profile' ? 'active' : ''}`}>Profile</a>
+                </Link>
+                {navOptions.map((option, idx) => (
+                    option && (
+                        <Link href={option.route} key={idx}>
+                            <a className={`link ${path === option.route ? 'active' : ''}`}>{option.name}</a>
+                        </Link>
+                    )
+                ))}
+                <div className="link danger-link" onClick={logout}>
+                    Logout
+                </div>
+            </div>
         </ProfileContainer>
     )
     const navOptions = [
@@ -120,7 +162,7 @@ function Navbar() {
             route: '/become-a-seller',
             name: 'Become a Seller',
         } : {
-            route: '/store-dashboard',  
+            route: '/store-dashboard',
             name: 'Store Dashboard',
         },
         currentUser?.isAdmin && ({
@@ -145,7 +187,7 @@ function Navbar() {
                                 {navOptions.map((option, idx) => (
                                     option && (
                                         <Link href={option.route} key={idx}>
-                                            <a className={`link ${path === option.route ? 'active' : ''}`}>{option.name.toUpperCase()}</a>
+                                            <a className={`link ${path === option.route ? 'active' : ''}`}>{option.name}</a>
                                         </Link>
                                     )
                                 ))}

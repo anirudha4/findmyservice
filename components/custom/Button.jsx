@@ -17,6 +17,12 @@ const StyledButton = styledComponents.button`
     font-weight: ${fonts.weights.bold};
     user-select: none;
     padding: 0 ${styles.paddings.lg};
+
+    &:disabled {
+      color: ${colors.layerText};
+      background-color: ${colors.border};
+      cursor: not-allowed;
+    }
 `;
 function Button({ children, loading, ...props }) {
   return (

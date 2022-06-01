@@ -12,8 +12,9 @@ const SelectContainer = styledComponents.div`
 `;
 
 const Options = styledComponents.div`
+    padding: 5px;
     position: absolute;
-    top: 110%;
+    top: 105%;
     left: 0;
     width: 100%;
     border-radius: ${styles.paddings.sm};
@@ -33,9 +34,14 @@ const Options = styledComponents.div`
     }
 `;
 const Option = styledComponents.div`
-    padding: 15px;
+    padding: 10px;
+    border-radius: ${styles.borderRadius.sm};
     font-size: ${fonts.sizes.md};
+    cursor: pointer;
     &:hover {
+        background-color: ${colors.layer};  
+    }
+    &.hover {
         background-color: ${colors.layer};  
     }
 `;
@@ -51,6 +57,7 @@ const SelectField = styledComponents(Field)`
         padding-left: ${styles.paddings.md};
         font-size: ${fonts.sizes.md};
         padding-bottom: 15px;
+        cursor: pointer;
     }
     .select-icon {
         position: absolute;
@@ -66,7 +73,6 @@ function Select({ options, onChange, value, placeholder, name, label, ...props }
     const currentIndex = React.useRef(0);
     const optionsRef = React.useRef();
 
-    console.log({ visible, hasFocus, currentIndex });
     const handleTrigger = e => {
         setVisible(!visible);
     }
@@ -85,17 +91,18 @@ function Select({ options, onChange, value, placeholder, name, label, ...props }
                 return;
             }
             childList.forEach((child, idx) => {
-                if(currentIndex.current === idx) {
-                    console.dir(child.previousElementSibling)
+                if (currentIndex.current === idx) {
+                    const nextElement = child.nextElementSibling;
+                    console.dir(nextElement)
                 }
             })
             currentIndex.current -= 1;
         } else if (e.key === 'ArrowDown') {
-            if(currentIndex.current === (childList.length - 1)) return;
+            if (currentIndex.current === (childList.length - 1)) return;
             childList.forEach((child, idx) => {
-                if(currentIndex.current === idx) {
-                    console.dir(child.nextElementSibling);
-                    console.log(child.nextElementSibling.dispatchEvent(new MouseEvent('mouseover')));
+                if (currentIndex.current === idx) {
+                    const nextElement = child.nextElementSibling;
+                    console.dir(nextElement)
                 }
             })
             currentIndex.current += 1;
@@ -104,15 +111,21 @@ function Select({ options, onChange, value, placeholder, name, label, ...props }
             setHasFocus(false)
         }
     }
+    const toggleSelectedClass = (list, element, className) => {
+        list.forEach(child => {
+            child.classList.remove(className);
+        });
+        element.classList.add(className);
+    }
     const handleFocus = e => {
         setHasFocus(true);
     }
-    React.useEffect(() => {
-        if (hasFocus) {
-            document.addEventListener('keydown', handleKeyDown);
-        }
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [visible, hasFocus])
+    // React.useEffect(() => {
+    //     if (hasFocus) {
+    //         document.addEventListener('keydown', handleKeyDown);
+    //     }
+    //     return () => document.removeEventListener('keydown', handleKeyDown);
+    // }, [visible, hasFocus])
     return (
         <OutsideClickHandler
             onOutsideClick={() => {
@@ -121,12 +134,12 @@ function Select({ options, onChange, value, placeholder, name, label, ...props }
             }}
         >
             <SelectContainer>
-                <SelectField onClick={handleTrigger} tabIndex={0} onFocus={handleFocus} >
+                <SelectField onClick={handleTrigger} tabIndex={0} >
                     <label htmlFor={name}>{label}</label>
                     <div className="clickable-trigger">{value.label || placeholder}</div>
                     <div className="select-icon"><BiChevronDown size={25} color={colors.layerLightText} /></div>
                 </SelectField>
-                {(visible || hasFocus) && <Options ref={optionsRef} visible={visible}>
+                {(visible) && <Options ref={optionsRef} visible={visible}>
                     {options.map(option => (
                         <Option onClick={e => handleClick(option)}>
                             {option.label}

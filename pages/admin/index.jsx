@@ -157,16 +157,17 @@ function Admin({ }) {
   // external states
   const router = useRouter();
   const { requestId } = router.query;
-  const { data: sellerRequests } = useSWR(`/seller-requests?pending=true`, fetcher);
+  const { data: pendingSellerRequests } = useSWR(`/seller-requests?pending=true`, fetcher);
+  const { data: approvedSellerRequests } = useSWR(`/seller-requests?approved=true`, fetcher);
   const { data: request, error } = useSWR(`/seller-requests/${requestId}`, fetcher);
-
+  console.log(approvedSellerRequests);
   // refs
   const sidePanelRef = useRef();
 
   return (
     <Container>
       {requestId && (
-        <SidePanel ref={sidePanelRef} id="seller-request" visible={!!requestId} onClose={() => router.push('/admin')} title={request ? `${request?.firstName} ${request?.lastName}` : <div style={{ height: 10, width: 50, background: colors.border }}></div>}>
+        <SidePanel ref={sidePanelRef} id="seller-request" visible={!!requestId} onClose={() => router.replace('/admin')} title={request ? `${request?.firstName} ${request?.lastName}` : <div style={{ height: 10, width: 50, background: colors.border }}></div>}>
           {request ? (
             <SellerRequestSidePanel
               sidePanelRef={sidePanelRef}
@@ -187,14 +188,32 @@ function Admin({ }) {
       )
       }
       <Spaces top={styles.margins.lg} />
-      <Title>Seller Requests</Title>
+      <Title>Pending Seller Requests</Title>
       <Spaces top={styles.margins.lg} />
       <SellerRequestsContainer>
-        {!!sellerRequests ? sellerRequests.map((request, key) => {
+        {!!pendingSellerRequests ? (!!pendingSellerRequests.length ? pendingSellerRequests.map((request, key) => {
           return (
             <SellerRequest key={key} request={request} />
           )
-        }) : (
+        }) : <p>No Pending Requests</p>) : (
+          <Skeleton>
+            <Rectangle width={250} height={10} background={colors.border} />
+            <Spaces top="10px" />
+            <Rectangle width={200} height={10} background={colors.border} />
+          </Skeleton>
+        )}
+      </SellerRequestsContainer>
+      <Spaces top={styles.margins.lg} />
+      <Line />
+      <Spaces top={styles.margins.lg} />
+      <Title>Approved Seller Requests</Title>
+      <Spaces top={styles.margins.lg} />
+      <SellerRequestsContainer>
+        {!!approvedSellerRequests ? (!!approvedSellerRequests.length  ? approvedSellerRequests.map((request, key) => {
+          return (
+            <SellerRequest key={key} request={request} />
+          )
+        }) : <p>No Approved Requests</p>) : (
           <Skeleton>
             <Rectangle width={250} height={10} background={colors.border} />
             <Spaces top="10px" />

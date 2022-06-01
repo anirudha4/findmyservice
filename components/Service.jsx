@@ -7,7 +7,7 @@ import Avatar from './custom/Avatar';
 
 const ServiceItem = styledComponents.div`
     background-color: ${colors.secondary};
-    box-shadow: ${styles.boxShadow.md};
+    box-shadow: ${styles.boxShadow.sm};
     display: flex;
     flex-direction: column;
     border-radius: ${styles.borderRadius.md};

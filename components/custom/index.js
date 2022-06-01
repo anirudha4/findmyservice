@@ -62,6 +62,7 @@ export const Field = styledComponents.div`
         border: none;
         padding: ${styles.paddings.sm};
         padding-left: ${styles.paddings.md};
+        font-size: ${fonts.sizes.lg};
         padding-bottom: 15px;
     }
     input:-webkit-autofill,

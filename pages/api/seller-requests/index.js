@@ -39,9 +39,14 @@ export default async function handler(req, res) {
                 })
             });
         } else if (req.method === 'GET') {
-            const { uid, pending } = req.query;
+            const { uid, pending, approved } = req.query;
             if (pending) {
                 const snapshot = await db.collection('seller-request').where("status", "==", false).get();
+                let requests = [];
+                snapshot.forEach(doc => requests.push({ ...doc.data(), id: doc.id }))
+                return res.status(200).json(requests)
+            } else if(approved) {
+                const snapshot = await db.collection('seller-request').where("status", "==", true).get();
                 let requests = [];
                 snapshot.forEach(doc => requests.push({ ...doc.data(), id: doc.id }))
                 return res.status(200).json(requests)

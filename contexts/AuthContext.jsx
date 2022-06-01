@@ -19,7 +19,7 @@ function AuthContextProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
-    // const { data: currentUser, error } = useSWR(user && [`/users/get-user`, user?.accessToken], fetchUser);
+    const { data, error } = useSWR(user && [`/users/get-user`, user?.accessToken], fetchUser);
     const manualLogin = async (email, password) => {
         await signInWithEmailAndPassword(email, password);
     }
@@ -50,6 +50,11 @@ function AuthContextProvider({ children }) {
         }
         loadUser();
     }, [user, userLoading])
+    useEffect(() => {
+        if(data) {
+            setCurrentUser(data);
+        }
+    }, [data])
     if (loading || userLoading) {
         return <CustomWidthHeightCenterContainer>
             <Oval
