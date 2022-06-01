@@ -3,7 +3,7 @@ import styledComponents from 'styled-components'
 import { colors, fonts, styles } from 'theme';
 
 const SwitchContainer = styledComponents.div`
-    padding: ${styles.paddings.sm};
+    padding: 5px;
     border-radius: ${styles.borderRadius.md};
     background-color: ${colors.layer};
     user-select: none;
@@ -12,7 +12,7 @@ const SwitchContainer = styledComponents.div`
     width: fit-content;
 `;
 const Switch = styledComponents.div`
-    padding: ${styles.paddings.md} ${styles.paddings.lg};
+    padding: ${styles.paddings.sm} ${styles.paddings.lg};
     background-color: ${props => props.active ? colors.secondary : 'inherit'};
     border-radius: ${styles.borderRadius.md};
     font-weight: ${fonts.weights.medium};

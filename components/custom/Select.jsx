@@ -12,7 +12,6 @@ const SelectContainer = styledComponents.div`
 `;
 
 const Options = styledComponents.div`
-    padding: 5px;
     position: absolute;
     top: 105%;
     left: 0;
@@ -35,7 +34,6 @@ const Options = styledComponents.div`
 `;
 const Option = styledComponents.div`
     padding: 10px;
-    border-radius: ${styles.borderRadius.sm};
     font-size: ${fonts.sizes.md};
     cursor: pointer;
     &:hover {

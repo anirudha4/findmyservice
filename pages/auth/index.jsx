@@ -15,7 +15,7 @@ const AuthContainer = styledComponents(Card)`
     // grid-template-columns: 1fr 1fr;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    padding: ${styles.paddings.md};
+    padding: ${styles.paddings.sm};
     min-height: 500px;
     // @media (max-width: 700px) {
     //     grid-template-columns: 1fr;

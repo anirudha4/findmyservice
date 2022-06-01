@@ -54,15 +54,15 @@ export const Field = styledComponents.div`
     label {
         color: ${colors.layerLightText};
         font-size: ${fonts.sizes.sm};
-        padding-left: ${styles.paddings.md};
-        padding-top: ${styles.paddings.md};
+        padding-left: ${styles.paddings.sm};
+        padding-top: ${styles.paddings.sm};
     }
     input, textarea {
         outline: none;
         border: none;
-        padding: ${styles.paddings.sm};
-        padding-left: ${styles.paddings.md};
-        font-size: ${fonts.sizes.lg};
+        padding: 5px;
+        padding-left: ${styles.paddings.sm};
+        font-size: ${fonts.sizes.md};
         padding-bottom: 15px;
     }
     input:-webkit-autofill,
@@ -117,6 +117,7 @@ export const MediaField = styledComponents.div`
 `;
 export const Flex = styledComponents.div`
     display: flex;
+    width: 100%;
     align-items: ${props => props.align ? props.align : 'center'};
     justify-content: ${props => props.justify ? props.justify : 'start'};
     gap: ${props => props.gap ? props.gap : '0px'};
