@@ -39,9 +39,9 @@ const Nav = styledComponents.nav`
                 color: ${colors.layerText};
                 font-weight: ${fonts.weights.bold};
                 transition: all .2s;
-                border-bottom: 1px solid transparent;
+                border-bottom: 1.5px solid transparent;
                 &.active {
-                    border-bottom: 1px solid black;
+                    border-color: ${colors.primary};
                     color: ${colors.primary};
                 }
             }

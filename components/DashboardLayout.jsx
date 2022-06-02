@@ -6,11 +6,11 @@ import { CgWorkAlt } from 'react-icons/cg';
 import { FiSettings } from 'react-icons/fi';
 import { BsMenuAppFill } from 'react-icons/bs'
 import { VscEditorLayout } from 'react-icons/vsc'
-import { GrAppsRounded } from 'react-icons/gr'
+import { HiOutlineViewGrid } from 'react-icons/hi'
 import { colors, styles, fonts } from 'theme';
 import fetcher from 'utils/fetcher';
 import Loader from './custom/Loader';
-import { Container, Flex, Line, Spaces } from './custom';
+import { Card, Container, Flex, Line, Spaces } from './custom';
 import Link from 'next/link';
 
 const StoreDashboardContainer = styledComponents.div`
@@ -22,10 +22,8 @@ const DashboardGrid = styledComponents.div`
     gap: 20px;
     max-height: calc(100vh - 100px);
 `;
-const Sidebar = styledComponents.div`
+const Sidebar = styledComponents(Card)`
     background-color: ${colors.secondary};
-    border-radius: ${styles.borderRadius.sm};
-    box-shadow: ${styles.boxShadow.sm};
     height: 100%;
     padding: ${styles.paddings.md};
     .store-details {
@@ -54,23 +52,28 @@ const Menu = styledComponents.div`
         display: flex;
         width: 100%;
         align-items: center;
-        justify-content: space-between;
+        gap: 20px;
         border-radius: ${styles.borderRadius.md};
         transition: all .05s;
         font-size: ${fonts.sizes.lg};
+        margin: 5px 0;
         &:hover {
             background-color: ${colors.layer};
+        }
+        &.active {
+            background-color: ${colors.primary};
+            color: ${colors.secondary};
         }
     }
 `;
 
-const dashboardPrefix = '/store-dashboard';
+export const dashboardPrefix = '/store-dashboard';
 const dashboardOptions = [
     {
         id: 0,
         name: 'Dashboard',
-        icon: <GrAppsRounded size={20} />,
-        path: `${dashboardPrefix}/services`
+        icon: <HiOutlineViewGrid size={20} />,
+        path: `${dashboardPrefix}`
     },
     {
         id: 1,
@@ -91,7 +94,7 @@ const dashboardOptions = [
         path: `${dashboardPrefix}/navbar`
     },
     {
-        id: 3,
+        id: 4,
         name: 'Store Appearance',
         icon: <VscEditorLayout size={20} />,
         path: `${dashboardPrefix}/navbar`
@@ -135,13 +138,13 @@ function DashboardLayout({ children, pageProps, user }) {
                             <Menu>
                                 {dashboardOptions.map(option => (
                                     <Link href={option.path}>
-                                        <a className={`menu-link ${option.path === router.pathname}`}>
-                                            <Flex align="center" justify="space-between">
-                                                <div className="menu-text">
-                                                    {option.name}
-                                                </div>
+                                        <a className={`menu-link ${option.path === router.pathname ? 'active' : ''}`}>
+                                            <Flex align="center" gap="15px">
                                                 <div className="menu-icon">
                                                     {option.icon}
+                                                </div>
+                                                <div className="menu-text">
+                                                    {option.name}
                                                 </div>
                                             </Flex>
                                         </a>

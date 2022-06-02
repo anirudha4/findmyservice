@@ -17,6 +17,7 @@ const StyledButton = styledComponents.button`
     font-weight: ${fonts.weights.bold};
     user-select: none;
     padding: 0 ${styles.paddings.lg};
+    box-shadow: 0px 3px 1px rgba(0,0,0,0.1);
 
     &:disabled {
       color: ${colors.layerText};

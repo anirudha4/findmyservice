@@ -64,7 +64,7 @@ function Auth() {
         try {
             setLoading(true)
             e.preventDefault();
-            if(active.value === 'login') {
+            if (active.value === 'login') {
                 await manualLogin(values.email, values.password);
             } else {
                 await manualSignup(values.email, values.password);
@@ -150,7 +150,7 @@ function Auth() {
 }
 export default () => {
     const { user } = useUser();
-    if(user) {
+    if (user) {
         Router.push('/')
     } else {
         return <Auth />

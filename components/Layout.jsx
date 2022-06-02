@@ -7,7 +7,7 @@ const AppShell = styledComponents.div`
     max-height: 100vh;
     height: 100vh;
 `;
-function Layout({ children, showHeader = true, pageProps, isDashboardRoute, user }) {
+function Layout({ children, showHeader = true, user, isDashboardRoute }) {
     return (
         <AppShell>
             {showHeader && <Navbar />}

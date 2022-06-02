@@ -1,3 +1,4 @@
+import withGaurd from 'components/hoc/withGaurd'
 import React from 'react'
 
 function Create() {
@@ -6,4 +7,12 @@ function Create() {
   )
 }
 
-export default Create
+export default withGaurd(Create)
+
+export async function getStaticProps() {
+  return {
+    props: {
+      isDashboardRoute: true
+    }
+  }
+}
