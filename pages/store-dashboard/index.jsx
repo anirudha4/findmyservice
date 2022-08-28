@@ -2,7 +2,6 @@ import React from 'react'
 import withGaurd from 'components/hoc/withGaurd';
 import DashboardLayout, { dashboardPrefix } from 'components/DashboardLayout';
 import styledComponents from 'styled-components';
-import { Card, Line, Spaces, Title } from 'components/custom';
 import { styles } from 'theme';
 import Button from 'components/custom/Button';
 import Link from 'next/link';
@@ -20,7 +19,7 @@ function StoreDashboard({ store, user }) {
                             Create Store
                         </Button>
                     </a>
-                </Link>
+                </Link> 
             )}
         </Dashboard>
     )

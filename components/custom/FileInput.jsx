@@ -1,5 +1,6 @@
 import React from 'react'
 import { IoMdTrash } from 'react-icons/io'
+import { BsImages } from 'react-icons/bs'
 import { MediaField } from '.'
 
 function FileInput({
@@ -20,7 +21,12 @@ function FileInput({
       )}
       <label htmlFor={name}>{value ? (
         <span className='filename'>{value.name}</span>
-      ) : label}</label>
+      ) : (
+        <div style={{ textAlign: 'center' }}>
+          <BsImages size={20} />
+          <div style={{ marginTop: 15 }}>{label}</div>
+        </div>
+      )}</label>
       <input type="file" name={name} id={name} onChange={handleFileUpload} />
     </MediaField>
   )

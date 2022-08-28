@@ -7,6 +7,11 @@ const Form = styledComponents.form`
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
+    @media (max-width: 500px) {
+        div {
+            flex-direction: column;
+        }
+    }
 `;
 function PersonalForm({
     values,

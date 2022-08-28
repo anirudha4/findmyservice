@@ -14,6 +14,7 @@ export const CustomWidthHeightCenterContainer = styledComponents.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
 `;
 
 export const Card = styledComponents.div`
@@ -64,6 +65,7 @@ export const Field = styledComponents.div`
         padding-left: ${styles.paddings.sm};
         font-size: ${fonts.sizes.md};
         padding-bottom: 15px;
+        resize: none;
     }
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
@@ -75,6 +77,7 @@ export const Field = styledComponents.div`
 export const MediaField = styledComponents.div`
     width: 100%;
     gap: 5px;
+    padding: 0 10px;
     border: 1px dashed ${colors.border};
     border-radius: ${styles.borderRadius.md};
     overflow: hidden;
@@ -93,6 +96,7 @@ export const MediaField = styledComponents.div`
         color: ${colors.layerLightText};
         font-size: ${fonts.sizes.md};
         user-select: none;
+        padding: 20px 0;
     }
     .filename {
         color: ${colors.primary};

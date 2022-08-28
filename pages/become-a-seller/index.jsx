@@ -12,9 +12,7 @@ import { createFormData } from 'utils';
 import { createSellerRequest, deleteSellerRequest } from 'services/request';
 import useSWR, { mutate } from 'swr';
 import fetcher from 'utils/fetcher';
-import { Oval } from 'react-loader-spinner';
 import Button from 'components/custom/Button';
-import { useSWRHook } from 'hooks/swrHooks';
 import Loader from 'components/custom/Loader';
 
 const BecomeSellerCard = styledComponents(Card)`
@@ -26,6 +24,7 @@ const BecomeSellerCard = styledComponents(Card)`
   @media (max-width: 700px) {
       grid-template-columns: 1fr;
       height: 100%;
+      overflow: auto;
   }
 `;
 const Steps = styledComponents(Card)`
@@ -36,28 +35,36 @@ const Steps = styledComponents(Card)`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  @media (max-width: 500px) {
+    justify-content: flex-start;
+  }
   .step-count {
     color: #f4f4f4;
     position: absolute;
     top: 20px;
     left: 20px;
+    @media (max-width: 500px) {
+      display: none;
+    }
   }
   .step-section {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    @media (max-width: 500px) {
+      flex-direction: row;
+    }
   }
 `;
 const FormContainer = styledComponents.div`
   padding: ${styles.paddings.xl} ${styles.paddings.md};
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
 `;
 const Step = styledComponents.div`
   padding: 15px;
   display: flex;
-  // border: 1px solid ${colors.border};
   border-radius: ${styles.borderRadius.md};
   gap: 20px;
   align-items: center;
@@ -132,8 +139,8 @@ const SellerRequestContainer = styledComponents.div`
 `;
 
 const stepOptions = [
-  { id: 1, label: 'Fill in your Personal Details', value: 1 },
-  { id: 2, label: 'Fill  in your Professional Details', value: 2 }
+  { id: 1, label: 'Personal', value: 1 },
+  { id: 2, label: 'Professional', value: 2 }
 ]
 function BecomeSeller() {
   const { user } = useUser();

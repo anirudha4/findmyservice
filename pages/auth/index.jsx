@@ -12,14 +12,12 @@ import Router, { useRouter } from "next/router";
 
 const AuthContainer = styledComponents(Card)`
     display: grid;
-    // grid-template-columns: 1fr 1fr;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+    max-height: 100%;
+    overflow: auto;
     padding: ${styles.paddings.sm};
     min-height: 500px;
-    // @media (max-width: 700px) {
-    //     grid-template-columns: 1fr;
-    // }
 `;
 const ContainedCard = styledComponents(Card)`
     box-shadow: none;

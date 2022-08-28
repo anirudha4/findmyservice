@@ -5,3 +5,5 @@ export const createFormData = (values) => {
     });
     return formData
 }
+
+export const convertToMb = (bytes) => parseInt(bytes / 1048576)

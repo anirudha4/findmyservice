@@ -12,6 +12,7 @@ import fetcher from 'utils/fetcher';
 import Loader from './custom/Loader';
 import { Card, Container, Flex, Line, Spaces } from './custom';
 import Link from 'next/link';
+import withGaurd from './hoc/withGaurd';
 
 const StoreDashboardContainer = styledComponents.div`
     padding: 20px 0;
@@ -19,12 +20,12 @@ const StoreDashboardContainer = styledComponents.div`
 const DashboardGrid = styledComponents.div`
     display: grid;
     grid-template-columns: 250px 1fr;
-    gap: 20px;
+    gap: 2em;
     max-height: calc(100vh - 100px);
 `;
 const Sidebar = styledComponents(Card)`
     background-color: ${colors.secondary};
-    height: 100%;
+    height: fit-content;
     padding: ${styles.paddings.md};
     .store-details {
         .no-store {
@@ -58,6 +59,10 @@ const Menu = styledComponents.div`
         font-size: ${fonts.sizes.lg};
         margin: 5px 0;
         &:hover {
+            background-color: ${colors.layer};
+        }
+        &:focus {
+            outline: none;
             background-color: ${colors.layer};
         }
         &.active {
@@ -136,8 +141,8 @@ function DashboardLayout({ children, pageProps, user }) {
                             <Line />
                             <Spaces top="10px" />
                             <Menu>
-                                {dashboardOptions.map(option => (
-                                    <Link href={option.path}>
+                                {dashboardOptions.map((option, idx) => (
+                                    <Link href={option.path} key={idx}>
                                         <a className={`menu-link ${option.path === router.pathname ? 'active' : ''}`}>
                                             <Flex align="center" gap="15px">
                                                 <div className="menu-icon">
@@ -165,4 +170,4 @@ function DashboardLayout({ children, pageProps, user }) {
     )
 }
 
-export default DashboardLayout
+export default withGaurd(DashboardLayout)
